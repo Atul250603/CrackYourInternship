@@ -1,0 +1,16 @@
+class solution {
+  public:
+    long long multiplyTwoLists(Node *first, Node *second) {
+        long long one=0;
+        long long two=0;
+        while(first){
+            one=(one*10)%1000000007+(first->data)%1000000007;
+            first=first->next;
+        }
+        while(second){
+            two=(two*10)%1000000007+(second->data*1LL)%1000000007;
+            second=second->next;
+        }
+        return (((one%1000000007)*(two%1000000007))%1000000007);
+    }
+};
