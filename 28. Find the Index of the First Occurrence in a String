@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        string str="";
+        int i=0;int len=needle.length();
+        int j=0;
+        while(j<haystack.size()){
+            while(j<len){
+                str+=haystack[j++];
+            }
+            if(str.substr(i,len)==needle){
+                return i;
+            }
+            i++;str+=haystack[j++];
+        }
+        if(str.substr(i,len)==needle){
+            return i;
+        }
+        return -1;
+    }
+};
