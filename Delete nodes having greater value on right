@@ -1,0 +1,38 @@
+class Solution
+{
+    public:
+    Node *compute(Node *head)
+    {
+        if(!head)return head;
+        
+        Node *prev=NULL;
+        Node *curr=head;
+        while(curr){
+            Node *next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
+        }
+        Node *temp=prev->next;
+        Node *prev1=prev;
+        while(temp){
+            if(temp->data<prev1->data){
+                prev1->next=temp->next;
+                temp=temp->next;
+            }
+            else{
+                prev1=temp;
+                temp=temp->next;
+            }
+        }
+        prev1=NULL;
+        while(prev){
+            Node *nxt=prev->next;
+            prev->next=prev1;
+            prev1=prev;
+            prev=nxt;
+        }
+        return prev1;
+    }
+    
+};
