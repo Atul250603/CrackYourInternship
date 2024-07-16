@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+        int i=0,j=cardPoints.size()-k;
+        int endSum=0;
+        while(j<cardPoints.size()){
+            endSum+=cardPoints[j++];
+        }
+
+        j=cardPoints.size()-k;
+        int ans=endSum;
+        int frontSum=0;
+        while(i<k){
+            frontSum+=cardPoints[i];
+            endSum-=cardPoints[cardPoints.size()-k+i];
+            cout<<frontSum<<" "<<endSum<<endl;
+            ans=max(ans,frontSum+endSum);
+            i++;
+        }
+        return ans;
+    }
+};
