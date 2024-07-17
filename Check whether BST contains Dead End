@@ -1,0 +1,16 @@
+class Solution{
+  public:
+    bool solve(Node *&root,int l,int h){
+        if(!root)return false;
+        if(!root->left && !root->right){
+            return (h-root->data)<=1 && (root->data-l<=1);
+        }
+        if(solve(root->left,l,root->data))return true;
+        if(solve(root->right,root->data,h))return true;
+        return false;
+    }
+    bool isDeadEnd(Node *root)
+    {
+       return solve(root,1,1e9);
+    }
+};
