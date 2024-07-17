@@ -1,0 +1,19 @@
+class Solution{
+public:
+    void solve(Node *root,int &l,int &h,int &count){
+        if(!root)return;
+        if(root->data>=l && root->data<=h)count=count+1;
+        if(root->data>l){
+            solve(root->left,l,h,count);
+        }
+        if(root->data<=h){
+            solve(root->right,l,h,count);
+        }
+    }
+    int getCount(Node *root, int l, int h)
+    {
+      int count=0;
+      solve(root,l,h,count);
+      return count;
+    }
+};
