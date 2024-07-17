@@ -1,0 +1,37 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // idea is to move a ptr n steps
+        //and then we move both ptr one from start and the other one
+        //this will make the start ptr to reach a node before the to_delete node
+
+        //why?
+        //we dont know from start after how many moves this n lies
+        //but we if create a kind of window of size n
+        //then when we reach the last node, the starting ptr will be pointing to the node before the target node
+        ListNode *slow=head,*fast=head;
+        for(int i=0;i<n;i++){
+            fast=fast->next;
+        }
+        if(!fast)return head->next;
+        while(fast->next){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        
+        ListNode *todelete=slow->next;
+        slow->next=slow->next->next;
+        delete todelete;
+        return head;
+    }
+};
