@@ -1,0 +1,43 @@
+class Solution{
+public:
+    Node* divide(int N, Node *head){
+        Node *even=NULL;
+        Node *odd=NULL;
+        Node *t1=NULL, *t2=NULL;
+        while(head){
+            if(head->data%2){
+                if(odd==NULL){
+                    odd=head;
+                    t1=head;
+                }
+                else{
+                    t1->next=head;
+                    t1=head;
+                }
+            }
+            else{
+                if(even==NULL){
+                    even=head;
+                    t2=head;
+                }
+                else{
+                    t2->next=head;
+                    t2=head;
+                }
+            }
+            head=head->next;
+        }
+        if(!even && !odd)return NULL;
+        if(!even && odd){
+            t1->next=NULL;
+            return odd;
+        }
+        if(!odd && even){
+            t2->next=NULL;
+            return even;
+        }
+        t2->next=odd;
+        t1->next=NULL;
+        return even;
+    }
+};
