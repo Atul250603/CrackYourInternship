@@ -1,0 +1,22 @@
+class Solution {
+    vector<pair<int,int>>dir{{0,1},{1,0},{0,-1},{-1,0}};
+public:
+    void solve(vector<vector<int>>&image,int sr,int sc,int color,int n,int m){
+        if(image[sr][sc]==color)return;
+        int oldcolor=image[sr][sc];
+        image[sr][sc]=color;
+        for(int i=0;i<4;i++){
+            int newx=sr+dir[i].first;
+            int newy=sc+dir[i].second;
+            if(newx>=0 && newx<n && newy>=0 && newy<m && image[newx][newy]==oldcolor){
+                solve(image,newx,newy,color,n,m);
+            }
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n=image.size();
+        int m=image[0].size();
+        solve(image,sr,sc,color,n,m);
+        return image;
+    }
+};
