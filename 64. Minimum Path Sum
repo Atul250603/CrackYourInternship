@@ -1,0 +1,39 @@
+class Solution {
+public:
+    // int solve(vector<vector<int>>&grid,int i,int j,vector<vector<int>>&dp){
+    //     if(i<0 || j<0 || i>=grid.size() || j>=grid[0].size())return 1e9;
+    //     if(i==(grid.size()-1) && j==(grid[0].size()-1)){
+    //         return grid[i][j];
+    //     }
+    //     if(dp[i][j]!=-1)return dp[i][j];
+    //     int down=grid[i][j]+solve(grid,i+1,j,dp);
+    //     int right=grid[i][j]+solve(grid,i,j+1,dp);
+    //     return dp[i][j]=min(down,right);
+    // }
+    int solve(vector<vector<int>>&grid){
+        vector<int>curr(grid[0].size()+1,1e9);
+        vector<int>nxt(grid[0].size()+1,1e9);
+        vector<int>tmp(grid[0].size()+1,1e9);
+        curr[grid[0].size()]=0;
+        nxt[grid[0].size()-1]=0;
+
+        for(int i=grid.size()-1;i>=0;i--){
+            for(int j=grid[0].size()-1;j>=0;j--){
+                int down=1e9,right=1e9;
+                down=grid[i][j]+nxt[j];
+                right=grid[i][j]+curr[j+1];
+                curr[j]=min(down,right);
+            }
+            nxt=curr;
+            curr=tmp;
+        }
+        for(auto val:nxt){
+            cout<<val<<" ";
+        }
+        return nxt[0];
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        int val= solve(grid);
+        return val;
+    }
+};
