@@ -1,0 +1,27 @@
+class Solution
+{
+    public:
+    //Function to find the maximum number of cuts.
+    int solve(int n,int x,int y, int z){
+        vector<int>dp(n+1,-1);
+        dp[0]=0;
+        for(int i=1;i<=n;i++){
+            int a=-1,b=-1,c=-1;
+            if(x<=i && dp[i-x]!=-1){
+                a=1+dp[i-x];
+            }
+            if(y<=i && dp[i-y]!=-1){
+                b=1+dp[i-y];
+            }
+            if(z<=i && dp[i-z]!=-1){
+                c=1+dp[i-z];
+            }
+            dp[i]=max(a,max(b,c));
+        }
+        return dp[n]==-1?0:dp[n];
+    }
+    int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        return solve(n,x,y,z);
+    }
+};
