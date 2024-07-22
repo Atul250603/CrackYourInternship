@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int solve(vector<vector<int>>&mp,int headID, vector<int>&informTime){
+        if(!mp[headID].size())return 0;
+        int ans=informTime[headID];
+        int val=0;
+        for(auto node:mp[headID]){
+           val=max(val,solve(mp,node,informTime));
+        }
+        ans+=val;
+        return ans;
+    }
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        vector<vector<int>>mp(n);
+        for(int i=0;i<manager.size();i++){
+            int u=manager[i];
+            int v=i;
+            if(u!=-1){
+                mp[u].push_back(v);
+            }
+        }
+        int ans=solve(mp,headID,informTime);
+        return ans;
+    }
+};
