@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        //multisource 
+        vector<vector<int>>mat(n,vector<int>(n,1e9));
+        for(int i=0;i<n;i++){
+            mat[i][i]=0;
+        }
+        for(int i=0;i<edges.size();i++){
+            int u=edges[i][0];
+            int v=edges[i][1];
+            int wt=edges[i][2];
+            mat[u][v]=wt;
+            mat[v][u]=wt;
+        }
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                    long long int newdist=mat[i][k]+mat[k][j];
+                    if(newdist<mat[i][j]){
+                        mat[i][j]=newdist;
+                    }
+                }
+            }
+        }
+        int finalCnt=n;
+        int ans=-1;
+        for(int i=0;i<n;i++){
+            int cnt=0;
+            for(int j=0;j<n;j++){
+                if(mat[i][j]<=distanceThreshold)cnt++;
+            }
+            if(finalCnt>=cnt){
+                finalCnt=cnt;
+                ans=i;
+            }
+        }
+        return ans;
+    }
+};
