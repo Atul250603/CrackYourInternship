@@ -1,0 +1,44 @@
+class Solution{
+    public:
+    /* Should return minimum distance between a and b
+    in a tree with given root*/
+    void solve(Node *&root,int &a,string &apath,string &tmp){
+        if(!root)return;
+        if(root->data==a){
+            apath=tmp;
+            return;
+        }
+        
+        if(apath.length()==0){
+            tmp+="L";
+            solve(root->left,a,apath,tmp);
+            tmp.pop_back();
+        }
+        
+        if(apath.length()==0){
+            tmp+="R";
+            solve(root->right,a,apath,tmp);
+            tmp.pop_back();
+        }
+        
+        
+    }
+    int findDist(Node* root, int a, int b) {
+        string apath="";
+        string bpath="";
+        string str="";
+        solve(root,a,apath,str);
+        str="";
+        solve(root,b,bpath,str);
+        
+        int i=0;
+        while(i<apath.length() && i<bpath.length()){
+            if(apath[i]!=bpath[i])break;
+            i++;
+        }
+        
+        int alen=apath.length()-i;
+        int blen=bpath.length()-i;
+        return alen+blen;
+    }
+};
