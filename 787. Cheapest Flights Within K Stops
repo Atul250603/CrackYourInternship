@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        unordered_map<int,vector<pair<int,int>>>adj;
+        for(int i=0;i<flights.size();i++){
+            int u=flights[i][0];
+            int v=flights[i][1];
+            int w=flights[i][2];
+            adj[v].push_back({u,w});
+        }
+        vector<int>dist(n,INT_MAX);
+        priority_queue<pair<int,pair<int,int>>,vector<pair<int,pair<int,int>>>,greater<pair<int,pair<int,int>>>>pq;
+        pq.push({0,{dst,0}});
+        while(!pq.empty()){
+            auto pr=pq.top();
+            pq.pop();
+            int dis=pr.first;
+            int node=pr.second.first;
+            int kval=pr.second.second;
+            for(auto nodes:adj[node]){
+                int newdis=dis+nodes.second;
+                if(dist[nodes.first]>newdis && kval<=k){
+                    dist[nodes.first]=newdis;
+                    pq.push({newdis,{nodes.first,kval+1}});
+                }
+            }
+        }
+        for(int i=0;i<n;i++){
+            cout<<dist[i]<<" ";
+        }
+        return (dist[src]!=INT_MAX)?dist[src]:-1;
+    }
+};
