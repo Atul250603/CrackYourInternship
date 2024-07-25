@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool solve(vector<vector<char>>&board,int i,int j, string &word,int &idx){
+        if(idx>=word.length()){cout<<"!"<<endl;return true;}
+        if(i<0 || j<0 || i>=board.size() || j>=board[0].size())return idx>=word.length();
+        if(word[idx]!=board[i][j]){return false;}
+        idx+=1;
+        char a=board[i][j];
+        board[i][j]='.';
+        bool val=solve(board,i+1,j,word,idx) || solve(board,i-1,j,word,idx) || solve(board,i,j+1,word,idx) || solve(board,i,j-1,word,idx);
+        board[i][j]=a;
+        idx-=1;
+        return val;
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int m=board.size();
+        int n=board[0].size();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]==word[0]){
+                    // cout<<board[i][j]<<endl;
+                    int idx=0;
+                    if(solve(board,i,j,word,idx))return true;
+                }
+            }
+        }
+        return false;
+    }
+};
