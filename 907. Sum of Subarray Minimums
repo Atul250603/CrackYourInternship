@@ -1,0 +1,32 @@
+#define mod 1000000007
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        //as we want to know how much a particular number contributes to the result
+        //and a number is included only if its the smallest number.
+
+        stack<int>s;
+        vector<pair<int,int>>contri(arr.size());
+        for(int i=0;i<arr.size();i++){
+            while(!s.empty() &&  arr[s.top()]>arr[i])s.pop();
+            contri[i].first=s.empty()?-1:s.top();
+            s.push(i);
+        }
+        while(!s.empty())s.pop();
+        for(int i=arr.size()-1;i>=0;i--){
+            while(!s.empty() &&  arr[s.top()]>=arr[i])s.pop();
+            contri[i].second=s.empty()?arr.size():s.top();
+            s.push(i);
+        }
+
+        int ans=0;
+        for(int i=0;i<arr.size();i++){
+            int left=(i-contri[i].first)%mod;
+            int right=(contri[i].second-i)%mod;;
+            long long int val= ((arr[i]%mod)*((left*right*1LL)%mod)*1LL)%mod;
+            ans=(ans%mod+val%mod)%mod;
+        }
+
+        return ans;
+    }
+};
