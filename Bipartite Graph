@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool notvalid(vector<int>adj[],int i,vector<int>&colors,int clr){
+        colors[i]=clr;
+        for(auto val:adj[i]){
+            if(colors[val]==-1){
+                if(notvalid(adj,val,colors,!clr))return true;
+            }
+            else if(colors[i]==colors[val]){
+                return true;
+            }
+        }
+        return false;
+    }
+	bool isBipartite(int V, vector<int>adj[]){
+	    vector<int>colors(V,-1);
+	    for(int i=0;i<V;i++){
+	        if(colors[i]==-1){
+	            if(notvalid(adj,i,colors,0))return false;
+	        }
+	    }
+	    return true;
+	}
+
+};
