@@ -1,0 +1,50 @@
+class Solution{
+    public:
+    void solve(vector<vector<char>>&adj,int i,vector<int>&visited,stack<char>&s){
+        visited[i]=1;
+        for(auto nodes:adj[i]){
+            if(!visited[nodes-'a']){
+                solve(adj,nodes-'a',visited,s);
+            }
+        }
+        s.push(i+'a');
+    }
+    string findOrder(string dict[], int N, int k) {
+        vector<vector<char>>adj(k+1);
+        for(int i=0;i<N-1;i++){
+            string a=dict[i];
+            string b=dict[i+1];
+            int j=0,k=0;
+            while(j<a.length() && k<b.length()){
+                if(a[j]==b[k]){
+                    j++;k++;
+                }
+                else{
+                    adj[a[j]-'a'].push_back(b[k]);
+                    break;
+                }
+            }
+        }
+        
+        //topo sort
+        
+        stack<char>s;
+        vector<int>visited(k+1,0);
+        
+        for(int i=0;i<k;i++){
+            if(adj[i].size() && !visited[i]){
+                solve(adj,i,visited,s);
+            }
+        }
+        
+        string ans="";
+        
+        while(!s.empty()){
+            ans=ans+s.top();
+            s.pop();
+        }
+        
+        
+        return ans;
+    }
+};
