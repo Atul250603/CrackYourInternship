@@ -1,0 +1,71 @@
+class Solution {
+public:
+    // int solve(string &s,int l,vector<int>&dp){
+    //     if(l>=s.length())return 1;
+    //     if(dp[l]!=-1)return dp[l];
+    //     int val=0;
+    //     int ans=0;
+    //     for(int i=l;i<s.length();i++){
+    //         val=(val*10) +(s[i]-'0');
+    //         if(val==0)return dp[l]=0;
+    //         if(val>26)return dp[l]=ans;
+    //         ans+=solve(s,i+1,dp); 
+    //     }
+
+    //     return dp[l]=ans;
+    // }
+    int solve(string &s){
+        vector<int>dp(s.length()+1,0);
+        dp[s.length()]=1;
+        for(int i=s.length()-1;i>=0;i--){
+            int val=0;
+            int ans=0;
+            for(int j=i;j<s.length();j++){
+                val=(val*10) +(s[j]-'0');
+                if(val==0)break;
+                if(val>26)break;
+                ans+=dp[j+1]; 
+            }
+            dp[i]=ans;
+        }
+        return dp[0];
+    }
+    int numDecodings(string s) {
+        return solve(s);
+    }
+};class Solution {
+public:
+    // int solve(string &s,int l,vector<int>&dp){
+    //     if(l>=s.length())return 1;
+    //     if(dp[l]!=-1)return dp[l];
+    //     int val=0;
+    //     int ans=0;
+    //     for(int i=l;i<s.length();i++){
+    //         val=(val*10) +(s[i]-'0');
+    //         if(val==0)return dp[l]=0;
+    //         if(val>26)return dp[l]=ans;
+    //         ans+=solve(s,i+1,dp); 
+    //     }
+
+    //     return dp[l]=ans;
+    // }
+    int solve(string &s){
+        vector<int>dp(s.length()+1,0);
+        dp[s.length()]=1;
+        for(int i=s.length()-1;i>=0;i--){
+            int val=0;
+            int ans=0;
+            for(int j=i;j<s.length();j++){
+                val=(val*10) +(s[j]-'0');
+                if(val==0)break;
+                if(val>26)break;
+                ans+=dp[j+1]; 
+            }
+            dp[i]=ans;
+        }
+        return dp[0];
+    }
+    int numDecodings(string s) {
+        return solve(s);
+    }
+};
