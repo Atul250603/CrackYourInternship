@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minDeletions(string s) {
+        //idea of this approach
+        //as per the question we want to make every element freq unique
+        //so first we should find the frequency
+        //now we sort them to group all the equals together
+        //now to any freq we can also reduce it (delete operation)
+        //so we start from the last to know if curr frequency should be less than next frequency
+        //so if it doesn;t hold this case we know we can make this frequency at max = next frequency-1
+        // and add the diff to the ans and do this for all the index
+        
+        vector<int>freq(26,0);
+        for(int i=0;i<s.length();i++){
+            freq[s[i]-'a']++;
+        }
+
+        sort(freq.begin(),freq.end());
+        int ans=0;
+        for(int i=24;i>=0;i--){
+            if(freq[i]==0)break;
+
+            if(freq[i]>=freq[i+1]){
+                int targetfreq=max(0,freq[i+1]-1);
+                ans+=freq[i]-targetfreq;
+                freq[i]=targetfreq;
+            }
+        }
+
+        return ans;
+    }
+};
