@@ -1,0 +1,47 @@
+class Solution {
+  public:
+    // Function to find minimum number of pages.
+    
+    bool valid(int n,int arr[],int m,int mid){
+        int s=0;
+        
+        for(int i=0;i<n;i++){
+            if(arr[i]>mid)return false;
+            s+=arr[i];
+            if(s>mid){
+                s=arr[i];
+                m--;
+            }
+        }
+        if(s>mid){
+            // s=arr[i];
+            m--;
+        }
+        return m>=1;
+    }
+    long long findPages(int n, int arr[], int m) {
+        if(m>n)return -1;
+        long long totalPages=0;
+        for(int i=0;i<n;i++){
+            totalPages+=arr[i];
+        }
+        
+        long long l=0,h=totalPages;
+        long long ans=-1;
+        
+        while(l<=h){
+            
+            long long mid=(l+h)/2;
+            
+            if(valid(n,arr,m,mid)){
+                ans=mid;
+                h=mid-1;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+};
