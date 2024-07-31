@@ -1,0 +1,29 @@
+class Solution {
+public:
+    void solve(vector<int>&candidates,int &target, int i,vector<vector<int>>&ans,vector<int>&tmp){
+        if(i>=candidates.size()){
+            if(target==0){
+                    ans.push_back(tmp);
+            }
+            return;
+        }
+
+        if(candidates[i]<=target){
+            int newtarget=target-candidates[i];
+            tmp.push_back(candidates[i]);
+            solve(candidates,newtarget,i+1,ans,tmp);
+            tmp.pop_back();
+        }
+        int l=i+1;
+        while(l<candidates.size() && candidates[l]==candidates[i])l++;
+        solve(candidates,target,l,ans,tmp);
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(),candidates.end());
+        
+        vector<vector<int>>ans;
+        vector<int>tmp;
+        solve(candidates,target,0,ans,tmp);
+        return ans;
+    }
+};
