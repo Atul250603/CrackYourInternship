@@ -1,0 +1,49 @@
+class Solution {
+public:
+    double solve(unordered_map<string,vector<pair<double,string>>>&mp,string &a,string &b){
+        unordered_map<string,int>vis;
+        queue<pair<string,double>>q;
+        q.push({a,1.00000});
+        while(!q.empty()){
+            auto front=q.front();
+            q.pop();
+            if(!vis[front.first]){
+                vis[front.first]=1;
+                if(front.first==b)return front.second;
+                for(auto val:mp[front.first]){
+                    if(!vis[val.second]){
+                        double amt=front.second*val.first;
+                        q.push({val.second,amt});
+                    }
+                }
+            }
+
+        }
+        return -1.0000000;
+    }
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        unordered_map<string,vector<pair<double,string>>>mp;
+        for(int i=0;i<equations.size();i++){
+            string u=equations[i][0];
+            string v=equations[i][1];
+            double val=values[i];
+            double val1=1/val;
+            mp[u].push_back({val,v});
+            mp[v].push_back({val1,u});
+        }
+        vector<double>ans;
+
+        for(int i=0;i<queries.size();i++){
+            string a=queries[i][0];
+            string b=queries[i][1];
+            if(!mp[a].size()){
+                ans.push_back(-1.00000);
+            }
+            else{
+                double val=solve(mp,a,b);
+                ans.push_back(val);
+            }
+        }
+        return ans;
+    }
+};
