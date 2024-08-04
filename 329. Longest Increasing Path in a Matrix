@@ -1,0 +1,34 @@
+class Solution {
+    vector<pair<int,int>>dir{{-1,0},{1,0},{0,1},{0,-1}};
+public:
+    int solve(vector<vector<int>>&matrix,vector<vector<int>>&dp,int i,int j){
+        if(dp[i][j]!=0)return dp[i][j];
+        int val=0;
+        for(int k=0;k<4;k++){
+            int newi=i+dir[k].first;
+            int newj=j+dir[k].second;
+            if(newi>=0 && newj>=0 && newi<matrix.size() && newj<matrix[0].size() && matrix[i][j]<matrix[newi][newj]){
+                val=max(val,solve(matrix,dp,newi,newj));
+            }
+        }
+        return dp[i][j]=val+1;
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        vector<vector<int>>dp(matrix.size(),vector<int>(matrix[0].size(),0));
+        for(int i=0;i<matrix.size();i++){
+            for(int j=0;j<matrix[0].size();j++){
+                if(dp[i][j]==0){
+                    solve(matrix,dp,i,j);
+                }
+            }
+        }
+        int ans=INT_MIN;
+        for(int i=0;i<matrix.size();i++){
+            for(int j=0;j<matrix[0].size();j++){
+                ans=max(ans,dp[i][j]);
+            }
+        }
+
+        return ans;
+    }
+};
