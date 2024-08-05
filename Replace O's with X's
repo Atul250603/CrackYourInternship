@@ -1,0 +1,60 @@
+class Solution{
+public:
+    vector<pair<int,int>>dir{{-1,0},{0,1},{1,0},{0,-1}};
+    void solve(vector<vector<char>>&mat,int i,int j){
+        mat[i][j]='.';
+        for(int k=0;k<4;k++){
+            int newi=i+dir[k].first;
+            int newj=j+dir[k].second;
+            if(newi>=0 && newj>=0 && newi<mat.size() && newj<mat[0].size() && mat[newi][newj]=='O'){
+                solve(mat,newi,newj);
+            }
+        }
+    }
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
+    {
+        //we try to find the zeros that can reach the outer perimeter of the matrix
+        //so we go inverse we start from the outer perimeter and find all the connected nodes from here
+        for(int i=0;i<n;i++){
+            if(mat[i][0]=='O'){
+                solve(mat,i,0);
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            if(mat[i][m-1]=='O'){
+                solve(mat,i,m-1);
+            }
+        }
+        
+        for(int i=0;i<m;i++){
+            if(mat[0][i]=='O'){
+                solve(mat,0,i);
+            }
+        }
+        
+        for(int i=0;i<m;i++){
+            if(mat[n-1][i]=='O'){
+                solve(mat,n-1,i);
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]=='O'){
+                    mat[i][j]='X';
+                }
+            }
+        }
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]=='.'){
+                    mat[i][j]='O';
+                }
+            }
+        }
+        
+        return mat;
+    }
+};
