@@ -1,0 +1,21 @@
+class Solution {
+public:
+    void solve(vector<int>&nums,int i,vector<int>&tmp,vector<vector<int>>&ans){
+        ans.push_back(tmp);
+
+       //take
+       for(int l=i;l<nums.size();l++){
+        if(l>i && nums[l]==nums[l-1])continue;
+        tmp.push_back(nums[l]);
+        solve(nums,l+1,tmp,ans);
+        tmp.pop_back();
+       }
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>>ans;
+        vector<int>tmp;
+        sort(nums.begin(),nums.end());
+        solve(nums,0,tmp,ans);
+        return ans;
+    }
+};
