@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    void solve(vector<int>&arr,unordered_set<string>&s,vector<vector<int>>&ans,int i){
+        if(i>=arr.size()){
+            string tmp="";
+            for(auto val:arr){
+                tmp+=(to_string(val)+".");
+            }
+            if(s.find(tmp)==s.end()){
+                ans.push_back(arr);
+                s.insert(tmp);
+            }
+            return;
+        }
+        
+        for(int l=i;l<arr.size();l++){
+            swap(arr[i],arr[l]);
+            solve(arr,s,ans,i+1);
+            swap(arr[i],arr[l]);
+        }
+        return;
+    }
+    vector<vector<int>> uniquePerms(vector<int> &arr ,int n) {
+        unordered_set<string>s;
+        vector<vector<int>>ans;
+        solve(arr,s,ans,0);
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
