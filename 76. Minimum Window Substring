@@ -1,0 +1,44 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+       int i=0,j=0;
+       string ans="";
+       unordered_map<char,int>mp;
+       for(auto val:t){
+            mp[val]++;
+       }
+       unordered_map<char,int>mp1;
+       int cnt=mp.size();
+       int cnt1=0;
+       bool flag=false;
+       int i1=0,j1=0;
+       int len=s.length()+1;
+       while(j<s.length()){
+          mp1[s[j]]++;
+          if(mp1[s[j]]==mp[s[j]]){
+              cnt1++;
+          }
+          if(cnt1==cnt){
+              flag=true;
+              while(cnt1==cnt){
+                mp1[s[i]]--;
+                if(mp[s[i]] && mp1[s[i]]<mp[s[i]])cnt1--;
+                i++;
+              }
+              if((j-i+1)<len){
+                  i1=i-1;
+                  j1=j;
+                  len=j-i+1;
+              }
+          }
+          j++;
+          
+       }
+       if(!flag)return "";
+       for(int k=i1;k<=j1;k++){
+           ans+=s[k];
+       }
+       return ans;
+        
+    }
+};
