@@ -1,0 +1,61 @@
+class Solution {
+    vector<pair<int,int>>dir{{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,-1},{-1,1},{1,0}};
+public:
+    void solve(vector<vector<int>>&board,int i,int j){
+       int cnt1=0;
+        for(int k=0;k<8;k++){
+            int newi=i+dir[k].first;
+            int newj=j+dir[k].second;
+
+            if(newi>=0 && newj>=0 && newi<board.size() && newj<board[0].size()){
+                if(board[newi][newj])cnt1++;
+            }
+        }
+
+        board[i][j]+=cnt1;
+        return;
+    }
+    void solve1(vector<vector<int>>&board,int i,int j){
+       int cnt1=0;
+        for(int k=0;k<8;k++){
+            int newi=i+dir[k].first;
+            int newj=j+dir[k].second;
+
+            if(newi>=0 && newj>=0 && newi<board.size() && newj<board[0].size()){
+                if(board[newi][newj]>0)cnt1++;
+            }
+        }
+
+        if(cnt1==3){
+            board[i][j]=-1;
+        }
+        else{
+            board[i][j]=-2;
+        }
+        return;
+    }
+    void gameOfLife(vector<vector<int>>& board) {
+        vector<vector<int>>tmp=board;
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[0].size();j++){
+                if(board[i][j]!=0)
+                    solve(board,i,j);
+            }
+        }
+
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[0].size();j++){
+                if(board[i][j]==0)
+                    solve1(board,i,j);
+            }
+        }
+
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[0].size();j++){
+                if(board[i][j]==-2)board[i][j]=0;
+                else if(board[i][j]==-1 || board[i][j]==3 || board[i][j]==4)board[i][j]=1;
+                else board[i][j]=0;
+            }
+        }
+    }
+};
