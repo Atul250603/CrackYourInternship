@@ -1,0 +1,68 @@
+class TrieNode{
+    public:
+    char val;
+    TrieNode *neighbours[26];
+    bool isend;
+
+    TrieNode(char val){
+        this->val=val;
+        for(int i=0;i<26;i++){
+            neighbours[i]=NULL;
+        }
+        isend=false;
+    }
+};
+class Trie {
+public:
+    TrieNode *root;
+    Trie() {
+        root=new TrieNode('\0');
+    }
+    void insertHelper(string word,int i,TrieNode *r){
+        if(i>=word.length()){
+            r->isend=true;
+            return;
+        }
+        if(r->neighbours[word[i]-'a']!=NULL){
+            insertHelper(word,i+1,r->neighbours[word[i]-'a']);
+        }
+        else{
+            r->neighbours[word[i]-'a']=new TrieNode(word[i]);
+            insertHelper(word,i+1,r->neighbours[word[i]-'a']);
+        }
+        
+    }
+    void insert(string word) {
+        insertHelper(word,0,root);
+    }
+    
+    bool searchHelper(string word,int i,TrieNode *r){
+        if(i>=word.length()){
+            return r->isend;
+        }
+
+        if(r->neighbours[word[i]-'a']==NULL)return false;
+        return searchHelper(word,i+1,r->neighbours[word[i]-'a']);
+    }
+    bool search(string word) {
+        return searchHelper(word,0,root);
+    }
+    bool startsWithHelper(string prefix,int i,TrieNode *r){
+        if(i>=prefix.length()){
+            return true;
+        }
+        if(r->neighbours[prefix[i]-'a']==NULL)return false;
+        return startsWithHelper(prefix,i+1,r->neighbours[prefix[i]-'a']);
+    }
+    bool startsWith(string prefix) {
+        return startsWithHelper(prefix,0,root);
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
