@@ -1,0 +1,65 @@
+class TrieNode{
+    public:
+    char val;
+    TrieNode *neighbours[26];
+    bool isend;
+
+  
+    TrieNode(char val){
+        this->val=val;
+        for(int i=0;i<26;i++){
+            neighbours[i]=NULL;
+        }
+        isend=false;
+    }
+};
+class WordDictionary {
+    TrieNode *root;
+public:
+    WordDictionary() {
+        root=new TrieNode('\0');
+    }
+    void addWordHelper(string &word,int i,TrieNode *r){
+        if(i>=word.length()){
+            r->isend=true;
+            return;
+        }
+        int tmp=word[i]-'a';
+        if(r->neighbours[tmp]==NULL){
+            r->neighbours[tmp]=new TrieNode(word[i]);
+        }
+
+        addWordHelper(word,i+1,r->neighbours[tmp]);
+    }
+    
+    void addWord(string word) {
+        addWordHelper(word,0,root);
+    }
+    bool searchHelper(string &word,int i,TrieNode *r){
+        if(!r)return false;
+        if(i>=word.length()){
+            return r->isend;
+        }
+        if(word[i]=='.'){
+            for(int j=0;j<26;j++){
+                if(searchHelper(word,i+1,r->neighbours[j]))return true;
+            }
+        }
+        else{
+            if(r->neighbours[word[i]-'a']==NULL)return false;
+            return searchHelper(word,i+1,r->neighbours[word[i]-'a']);
+        }
+
+        return false;
+    }
+    bool search(string word) {
+        return searchHelper(word,0,root);
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary* obj = new WordDictionary();
+ * obj->addWord(word);
+ * bool param_2 = obj->search(word);
+ */
