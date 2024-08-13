@@ -1,0 +1,29 @@
+class Solution {
+public:
+   
+    int solve(vector<int>&prices,int &k1){
+        vector<vector<int>>curr(k1+1,vector<int>(2,0));
+        for(int i=prices.size()-1;i>=0;i--){
+            for(int k=k1;k>=1;k--){
+                for(int buy=0;buy<2;buy++){
+                    int val=0;
+                    if(buy){
+                        val=max((-prices[i])+curr[k][0],curr[k][1]);
+                    }
+                    else{
+                        val=max(prices[i]+curr[k-1][1],curr[k][0]);
+                    }
+
+                    curr[k][buy]=val;
+                }
+            }
+            
+        }
+
+
+        return curr[k1][1];
+    }
+    int maxProfit(int k, vector<int>& prices) {
+        return solve(prices,k);
+    }
+};
