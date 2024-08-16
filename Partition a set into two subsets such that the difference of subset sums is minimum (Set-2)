@@ -1,0 +1,37 @@
+class Solution{
+    int totalSum;
+    public:
+    pair<int,int> solve(vector<int>&arr,int i,int cnt,int sum){
+        if(i>=arr.size()){
+            if(cnt==0){
+                int otherhalf=totalSum-sum;
+                return {abs(sum-otherhalf),sum};
+            }
+            return {INT_MAX,INT_MAX};
+        }
+        pair<int,int>take={INT_MAX,INT_MAX};
+        pair<int,int>notTake={INT_MAX,INT_MAX};
+        if(cnt>0){
+            take=solve(arr,i+1,cnt-1,sum+arr[i]);
+        }
+        notTake=solve(arr,i+1,cnt,sum);
+        
+        if(take.first<notTake.first)return take;
+        return notTake;
+    }
+     vector<vector<int>> minDifference(vector<int>& arr, int n){
+        int cnt=n/2;
+        totalSum=0;
+        int sum=0;
+        for(int i=0;i<n;i++){
+            sum+=arr[i];
+        }
+        
+        totalSum=sum;
+        pair<int,int> val=solve(arr,0,cnt,0); 
+        int onehalf=val.second;
+        int otherhalf=totalSum-val.second;
+        if(onehalf>otherhalf)return {{otherhalf},{onehalf}};
+        return {{onehalf},{otherhalf}};
+    }
+};
