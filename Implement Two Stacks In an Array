@@ -1,0 +1,36 @@
+class twoStacks {
+  public:
+    vector<int>st;
+    int top1,top2,rear1,rear2;
+    twoStacks() {
+        st.resize(100);
+        top1=-1,top2=100;
+    }
+
+    // Function to push an integer into the stack1.
+    void push1(int x) {
+        st[++top1]=x;
+    }
+
+    // Function to push an integer into the stack2.
+    void push2(int x) {
+        st[--top2]=x;
+        
+    }
+
+    // Function to remove an element from top of the stack1.
+    int pop1() {
+        if(top1==-1)return -1;
+        int val=st[top1];
+        top1--;
+        return val;
+    }
+
+    // Function to remove an element from top of the stack2.
+    int pop2() {
+        if(top2==100)return -1;
+        int val=st[top2];
+        top2++;
+        return val;
+    }
+};
