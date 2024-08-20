@@ -1,0 +1,35 @@
+class Solution {
+  public:
+    Node* zigZag(Node* head) {
+        if(!head || !head->next)return head;
+        Node *node=head;
+        while(node && node->next){
+            int a=node->data;
+            int b=node->next->data;
+            int c=-1;
+            if(node->next->next){
+                c=node->next->next->data;
+            }
+            
+            if(c==-1){
+                int mini=(a<b)?a:b;
+                int maxi=(a>b)?a:b;
+                node->data=mini;
+                node->next->data=maxi;
+                break;
+            }
+            
+            else{
+                int mini=min(a,min(b,c));
+                int maxi=max(a,max(b,c));
+                int mid=(a!=mini && a!=maxi)?a:(b!=mini && b!=maxi)?b:c;
+                node->data=mini;
+                node->next->data=maxi;
+                node->next->next->data=mid;
+                node=node->next->next;
+            }
+        }
+        return head;
+        
+    }
+};
