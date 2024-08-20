@@ -1,0 +1,33 @@
+class Solution {
+public:
+	int isNegativeWeightCycle(int n, vector<vector<int>>edges){
+	   //Bellman ford or Floyd Warshall
+	  if(edges.size()==0)return false;
+	   vector<int>dist(n,INT_MAX);
+	   dist[edges[0][0]]=0;
+	   for(int i=1;i<n;i++){
+	       for(auto edge:edges){
+	           int u=edge[0];
+	           int v=edge[1];
+	           int w=edge[2];
+	           
+	           if(dist[u]!=INT_MAX && dist[v]>(dist[u]+w)){
+	               dist[v]=dist[u]+w;
+	           }
+	       }
+	   }
+	   
+	   for(auto edge:edges){
+	           int u=edge[0];
+	           int v=edge[1];
+	           int w=edge[2];
+	           
+	           if(dist[u]!=INT_MAX && dist[v]>(dist[u]+w)){
+	              return true;
+	           }
+	       }
+	  return false;
+	   
+	}
+	
+};
