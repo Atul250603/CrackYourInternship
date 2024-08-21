@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> countSmaller(vector<int>& nums) {
+        vector<int>ans(nums.size(),0);
+        vector<int>tmp;
+        for(int i=nums.size()-1;i>=0;i--){
+            auto idx=lower_bound(tmp.begin(),tmp.end(),nums[i]);
+            if(idx==tmp.end()){
+                ans[i]=tmp.size();
+                tmp.push_back(nums[i]);
+            }
+            else{
+                int idx1=idx-tmp.begin();
+                ans[i]=idx1;
+                tmp.insert(tmp.begin()+idx1,nums[i]);
+            }
+        }
+
+        return ans;
+    }
+};
