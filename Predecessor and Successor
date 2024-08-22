@@ -1,0 +1,30 @@
+class Solution
+{
+    public:
+    void traverse(Node *&root,Node*& pre, Node*& suc, int key){
+        if(!root)return;
+        
+        if(root->key < key){
+            pre=root;
+            traverse(root->right,pre,suc,key);
+        }
+        
+        else if(root->key > key){
+            suc=root;
+            traverse(root->left,pre,suc,key);
+        }
+        
+        else{
+            traverse(root->left,pre,suc,key);
+            traverse(root->right,pre,suc,key);
+            // return;
+        }
+        
+    }
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        Node *prev=NULL;
+        pre=suc=NULL;
+        traverse(root,pre,suc,key);
+    }
+};
