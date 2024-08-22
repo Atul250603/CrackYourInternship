@@ -1,0 +1,42 @@
+class Solution {
+public:
+    // int solve(vector<int>&tmp,int i,unordered_map<int,int>&mp,int prev,vector<vector<int>>&dp){
+    //     if(i>=tmp.size())return 0;
+    //     if(dp[i][prev+1]!=-1)return dp[i][prev+1];
+    //     int take=0,notTake=0;
+    //     if(prev==-1 || (tmp[i]-tmp[prev])>1){
+    //         take=(tmp[i]*mp[tmp[i]]) + solve(tmp,i+1,mp,i,dp);
+    //     }
+    //     notTake=solve(tmp,i+1,mp,prev,dp);
+    //     return dp[i][prev+1]=max(take,notTake);
+    // }
+
+    int solve(vector<int>&tmp,unordered_map<int,int>&mp){
+        vector<int>curr(tmp.size()+1,0);
+        vector<int>next(tmp.size()+1,0);
+        for(int i=tmp.size()-1;i>=0;i--){
+            for(int prev=i-1;prev>=-1;prev--){
+                int take=0,notTake=0;
+                if(prev==-1 || (tmp[i]-tmp[prev])>1){
+                    take=(tmp[i]*mp[tmp[i]]) + next[i+1];
+                }
+                notTake=next[prev+1];
+                curr[prev+1]=max(take,notTake);
+            }
+            next=curr;
+        }
+        return next[0];
+    }
+    int deleteAndEarn(vector<int>& nums) {
+        unordered_map<int,int>mp;
+        for(auto val:nums){
+            mp[val]++;
+        }
+        vector<int>tmp;
+        for(auto val:mp){
+            tmp.push_back(val.first);
+        }
+        sort(tmp.begin(),tmp.end());
+        return solve(tmp,mp);
+    }
+};
