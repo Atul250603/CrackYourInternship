@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        unordered_map<char, int> mp;
+        int i = 0, j = 0;
+        int maxFreq = 0;
+        int ans = 0;
+        char maxi='.';
+        while (j < s.length()) {
+            mp[s[j]]++;
+           
+            if(mp[s[j]]>maxFreq){
+                maxFreq=mp[s[j]];
+                maxi=s[j];
+            }
+            int totalLen = j - i + 1;
+            int extraLen = totalLen - maxFreq;
+
+            if (extraLen <= k) {
+                ans = max(ans, totalLen);
+                j++;
+            } else {
+                mp[s[i]]--;
+                if(s[i]==maxi){
+                    maxFreq--;
+                }
+                i++;
+                j++;
+            }
+        }
+
+        return ans;
+    }
+};
