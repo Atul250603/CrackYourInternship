@@ -1,0 +1,83 @@
+class LL {
+public:
+    int val;
+    LL *next;
+    LL *prev;
+
+    LL(int value) : val(value), next(nullptr), prev(nullptr) {}
+};
+
+class LRUCache {
+public:
+    LL *head, *tail;
+    int sz;
+    unordered_map<int, LL*> mp; // key -> node
+    unordered_map<LL*, int> mp1; // node -> key
+
+    LRUCache(int capacity) : sz(capacity), head(nullptr), tail(nullptr) {}
+
+    int get(int key) {
+        if (mp.find(key) != mp.end()) {
+            LL *node = mp[key];
+            if (node == tail) {
+                return tail->val; // Already at the tail
+            }
+
+            // Remove node from its current position
+            if (node->prev) {
+                node->prev->next = node->next;
+            } else {
+                head = node->next; // Node was at head
+            }
+            if (node->next) {
+                node->next->prev = node->prev;
+            }
+
+            // Move node to tail
+            tail->next = node;
+            node->prev = tail;
+            node->next = nullptr;
+            tail = node;
+
+            return node->val;
+        }
+        return -1;
+    }
+
+    void put(int key, int value) {
+        if (mp.find(key) != mp.end()) {
+            // Key exists, update value and move to tail
+            LL *node = mp[key];
+            node->val = value;
+            get(key); // Move node to tail
+        } else {
+            if (mp.size() == sz) {
+                // Cache is full, evict the least recently used (head)
+                int oldKey = mp1[head];
+                mp.erase(oldKey);
+                mp1.erase(head);
+
+                LL *oldHead = head;
+                head = head->next;
+                if (head) {
+                    head->prev = nullptr;
+                } else {
+                    tail = nullptr; // Cache becomes empty
+                }
+                delete oldHead; // Free memory
+            }
+
+            // Insert new node at the tail
+            LL *newNode = new LL(value);
+            if (!tail) { // Cache was empty
+                head = tail = newNode;
+            } else {
+                tail->next = newNode;
+                newNode->prev = tail;
+                tail = newNode;
+            }
+            mp[key] = newNode;
+            mp1[newNode] = key;
+        }
+    }
+};
