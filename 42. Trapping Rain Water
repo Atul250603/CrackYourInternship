@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int l=0,e=height.size()-1;
+        int lmax=0,rmax=0;
+        int ans=0;
+        while(l<e){
+            if(height[l]<=height[e]){ //basically mini element is towards the left
+                if(height[l]>lmax){
+                    lmax=height[l];
+                }
+                else{
+                    ans+=(lmax-height[l]);
+                }
+                l++;
+            }
+            else{
+                if(height[e]>rmax){
+                    rmax=height[e];
+                }
+                else{
+                    ans+=(rmax-height[e]);
+                }
+                e--;
+            }
+        }
+        return ans;
+    }
+};
