@@ -1,0 +1,42 @@
+class Solution {
+public:
+    vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
+        unordered_map<int,vector<int>>adj;
+        for(auto val:adjacentPairs){
+            int u=val[0];
+            int v=val[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        int terminal=-1;
+        for(auto val:adj){
+            if(val.second.size()==1){
+                terminal=val.first;
+                break;
+            }
+        }
+
+        unordered_map<int,int>visited;
+        visited[terminal]=1;
+        queue<int>q;
+        q.push(terminal);
+        vector<int>ans;
+
+        while(!q.empty()){
+            int front=q.front();
+            q.pop();
+            ans.push_back(front);
+
+            for(auto val:adj[front]){
+                if(!visited[val]){
+                    q.push(val);
+                    visited[val]=1;
+                }
+            }
+        }
+
+        return ans;
+
+    }
+};
