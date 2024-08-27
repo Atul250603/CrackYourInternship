@@ -1,0 +1,83 @@
+class Solution {
+public:
+
+    int calculate(string s) {
+        vector<int>tmp;
+        int i=0;
+        bool neg=false;
+        while(i<s.length()){
+            if(s[i]=='+'){
+                i++;
+                continue;
+            }
+            else if(s[i]=='-'){
+                i++;
+                neg=true;
+                continue;
+            }
+            else if(s[i]=='*'){
+                int prev=tmp.back();
+                int num=0;
+                i++;
+                while(i<s.length() && s[i]==' ')i++;
+                while(i<s.length() && s[i]>='0' && s[i]<='9'){
+                    num=num*10 + (s[i]-'0');
+                    i++;
+                }
+                if(neg){
+                    num*=(-1);
+                    neg=false;
+                }
+                tmp[tmp.size()-1]=(prev*num);
+                if(i!=s.length()){
+                    i--;
+                }
+
+            }
+            else if(s[i]=='/'){
+                int prev=tmp.back();
+                int num=0;
+                i++;
+                while(i<s.length() && s[i]==' ')i++;
+                while(i<s.length() && s[i]>='0' && s[i]<='9'){
+                    num=num*10 + (s[i]-'0');
+                    i++;
+                }
+                if(neg){
+                    num*=(-1);
+                    neg=false;
+                }
+                tmp[tmp.size()-1]=(prev/num);
+                if(i!=s.length()){
+                    i--;
+                }
+            }
+            else if(s[i]==' '){
+                i++;
+                continue;
+            }
+            else{
+                int num=0;
+                while(i<s.length() && s[i]>='0' && s[i]<='9'){
+                    num=num*10 + (s[i]-'0');
+                    i++;
+                }
+                if(neg){
+                    num*=(-1);
+                    neg=false;
+                }
+                tmp.push_back(num);
+                if(i!=s.length()){
+                    i--;
+                }
+            }
+            i++;
+        }
+
+        int ans=0;
+        for(auto val:tmp){
+           ans+=val;
+        }
+        return ans;
+    }
+};
