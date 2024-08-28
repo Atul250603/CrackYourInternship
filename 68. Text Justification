@@ -1,0 +1,77 @@
+class Solution {
+public:
+    void solve(vector<string>&words,vector<string>&ans,int maxWidth,int i,vector<int>&wordcnt){
+        if(i>=words.size())return;
+        string tmp="";
+        ans.push_back("");
+        wordcnt.push_back(0);
+        int cnt=0;
+        for(int j=i;j<words.size();j++){
+            if(tmp.length()==0){
+                tmp=words[j];
+                cnt++;
+            }
+            else{
+                tmp+=(" "+words[j]);
+                cnt++;
+            }
+            if(tmp.length()<=maxWidth){
+                ans[ans.size()-1]=tmp;
+                wordcnt[wordcnt.size()-1]=cnt;
+            }
+            else{
+                solve(words,ans,maxWidth,j,wordcnt);
+                return;
+            }
+        }
+    }
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        vector<string>ans;
+        vector<int>wordCnt;
+        solve(words,ans,maxWidth,0,wordCnt);
+        for(int i=0;i<wordCnt.size()-1;i++){
+            if(wordCnt[i]==1){
+                int lastneeded=(maxWidth-ans[i].length());
+                while(lastneeded){
+                    ans[i]+=" ";
+                    lastneeded--;
+                }
+                continue;
+            }
+            int totalLen=ans[i].length();
+            int spaces=wordCnt[i]-1;
+            int remLen=maxWidth-totalLen;
+            int extra=remLen%spaces;
+            int needed=remLen/spaces;
+            string tmp="";
+            int j=0;
+            while(j<ans[i].length()){
+                if(ans[i][j]!=' '){
+                    tmp+=ans[i][j];
+                }
+                else{
+                    tmp+=ans[i][j];
+                    if(extra){
+                        tmp+=" ";
+                        extra--;
+                    }
+                    int cnt=needed;
+                    while(cnt){
+                        tmp+=" ";
+                        cnt--;
+                    }
+                }
+                j++;
+            }
+
+            ans[i]=tmp;
+        }
+
+        int lastneeded=(maxWidth-ans.back().length());
+        while(lastneeded){
+            ans[ans.size()-1]+=" ";
+            lastneeded--;
+        }
+        return ans;
+    }
+};
