@@ -1,0 +1,29 @@
+class Solution{
+    public:
+    int solve(int keys[],int freq[],vector<int>&prefix,int i,int j,vector<vector<int>>&dp){
+        if(i>j)return 0;
+        if(dp[i][j]!=-1)return dp[i][j];
+        int ans=1e9;
+        for(int k=i;k<=j;k++){
+            int val=prefix[j]-(((i-1)>=0)?prefix[i-1]:0);
+            
+            int prev=solve(keys,freq,prefix,i,k-1,dp);
+            int next=solve(keys,freq,prefix,k+1,j,dp);
+            ans=min(ans,val+prev+next);
+           
+        }
+        
+        return dp[i][j]=ans;
+    }
+
+    int optimalSearchTree(int keys[], int freq[], int n)
+    {
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        vector<int>prefix(n,0);
+        prefix[0]=freq[0];
+        for(int i=1;i<n;i++){
+            prefix[i]=prefix[i-1]+freq[i];
+        }
+        return solve(keys,freq,prefix,0,n-1,dp);
+    }
+};
