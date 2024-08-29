@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void solve(vector<string>&ans,string tmp,int open,int closed,int n){
+        if(open==n && closed==n){
+            ans.push_back(tmp);
+            return;
+        }
+
+        if(closed<open){
+            tmp+=")";
+            solve(ans,tmp,open,closed+1,n);
+            tmp.pop_back();
+        }
+
+        if(open<n){
+            tmp+="(";
+            solve(ans,tmp,open+1,closed,n);
+            tmp.pop_back();
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string>ans;
+        string tmp="";
+        solve(ans,tmp,0,0,n);
+        return ans;
+    }
+};
