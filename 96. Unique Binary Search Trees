@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int solve(int i,int j,vector<vector<int>>&dp){
+        if(i>=j)return 1;
+        if(dp[i][j]!=-1)return dp[i][j];
+        int total=0;
+        for(int k=i;k<=j;k++){
+            total+=(solve(i,k-1,dp) * solve(k+1,j,dp));
+        }
+
+        return dp[i][j]=total;
+    }
+    int numTrees(int n) {
+        vector<vector<int>>dp(n+1,vector<int>(n+1,-1));
+        return solve(0,n-1,dp);
+    }
+};
